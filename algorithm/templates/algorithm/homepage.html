@@ -1,0 +1,70 @@
+<!-- Load static files -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'algorithm/media/favicon.svg' %}" type="image/svg+xml">
+
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{% static 'algorithm/css/style.css' %}">
+    <title>3by3 puzzle</title>
+</head>
+<body>
+<section>
+    <button id="solution-button">
+        View Solution
+    </button>
+    <div id="share" onclick="shareSite()">
+      <img src="{% static 'algorithm/media/share.svg' %}">
+    </div>
+  </section>
+  <div>
+    <main>
+      <div id="moveDetails">
+        <div id="movBx">
+          <div >Moves: <span id="moves">0</span></div>
+        </div>
+        <div id="moveSequence">
+
+        </div>
+      </div>
+
+
+      <div id="board">
+        <div id="app" class="app won"></div>
+      </div>
+      <div id="sequence">
+        <button id="prev" class="sequence soundButton"><</button>
+        <button id="next" class="sequence soundButton">></button>
+      </div>
+      <div id="win"></div>
+      <button id="play" style="visibility: hidden" onclick="location.reload();">Play again</button>
+    </main>
+  </div>
+    <script src="{% static 'algorithm/js/puzzle.js' %}"></script>
+    <script src="{% static 'algorithm/js/sound.js' %}"></script>
+
+    <script>
+      const shareSite = () => {
+        if (navigator.share) {
+          const shareData = {
+            title: 'Sliding Number Puzzle',
+            text: 'Check out this cool site!',
+            url: 'https://example.com'
+          }
+        
+          navigator.share(shareData)
+            .then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing', error));
+        } else {
+          console.log('Web Share API not supported in this browser.');
+        }
+      }
+    </script>
+</body>
+
+
+</html>

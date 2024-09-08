@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     
+    <!-- Load static files -->
+    {% load static %}
+    
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{% static 'algorithm/css/style.css' %}">
+    <title>3by3 puzzle</title>
+</head>
+<body>
+
+<script>
+    document.getElementById('post-button').addEventListener('click', function() {
+        const name = document.getElementById('name-input').value;  // Get the name from the input field
+        
+        // Use fetch API to send a POST request to the Django backend
+        fetch('/algo/api/post-json/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',  // Indicate the content type is JSON
+                {% comment %} 'X-CSRFToken': getCookie('csrftoken')  // Include the CSRF token in headers {% endcomment %}
+            },
+            body: JSON.stringify({ name: name })  // Send the name in the request body
+        })
+        .then(response => response.json())  // Parse the JSON from the response
+        .then(data => {
+            // Handle the JSON data
+            console.log(data);
+            document.getElementById('response-output').innerText = 
+                `Message: ${data.message}, Status: ${data.status}`;
+        })
+        .catch(error => console.error('Error sending POST request:', error));
+    });
+
+{% comment %} 
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        console.log(cookieValue);
+        return cookieValue;
+    } {% endcomment %}
+</script>
+<section>
+    <div>
+      <span>Size:</span> <input type="number" name="gridsize" id="gridsize">
+    </div>
+  </section>
+  <div>
+    <main>
+      <div id="moveDetails">
+        <div id="movBx">
+          <div >Moves: <span id="moves">0</span></div>
+        </div>
+        <div id="moveSequence">
+
+        </div>
+      </div>
+
+
+      <div id="board">
+        <div id="app" class="app won"></div>
+      </div>
+      <div id="sequence">
+        <button id="prev" class="sequence soundButton"><</button>
+        <button id="next" class="sequence soundButton">></button>
+      </div>
+      <div id="win"></div>
+      <button id="play" style="visibility: hidden">Play again</button>
+    </main>
+  </div>
+    <script src="./puzzle.js"></script>
+    <script src="./sound.js"></script>
+</body>
+</html>
