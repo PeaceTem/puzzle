@@ -10,7 +10,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-# @csrf_exempt
+@csrf_exempt
 def my_json_view(request):
     if request.method == 'POST':
         # Get JSON data from the request body

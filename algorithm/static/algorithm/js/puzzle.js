@@ -444,7 +444,7 @@ const showSolution = () => {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',  // Indicate the content type is JSON
-          'X-CSRFToken': getCookie('csrftoken')  // Include the CSRF token in headers
+          // 'X-CSRFToken': getCookie('csrftoken')  // Include the CSRF token in headers
       },
       body: JSON.stringify({ matrix: Array.from(matrix.flat(1)).map(button => button.textContent === '' ? '0' : button.textContent).join() })  // Send the name in the request body
   })
